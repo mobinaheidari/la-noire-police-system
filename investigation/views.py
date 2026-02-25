@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from django.db.models import Max
 from .models import Suspect, Interrogation, Bail
 from .serializers import SuspectSerializer, InterrogationSerializer, BailSerializer
+from rest_framework.decorators import api_view
 
 class SuspectViewSet(viewsets.ModelViewSet):
     queryset = Suspect.objects.all()
@@ -22,3 +23,10 @@ class InterrogationViewSet(viewsets.ModelViewSet):
 class BailViewSet(viewsets.ModelViewSet):
     queryset = Bail.objects.all()
     serializer_class = BailSerializer
+
+@api_view(['GET', 'POST'])
+def payment_callback(request):
+    transaction_status = request.GET.get('status', 'success')
+    if transaction_status == 'success':
+        return Response({"message": "Payment verified successfully.", "status": 200})
+    return Response({"message": "Payment failed or canceled.", "status": 400})
