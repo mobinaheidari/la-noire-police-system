@@ -46,6 +46,13 @@ INSTALLED_APPS = [
     'trials',
     'rewards',
     'stats',
+    'investigation',
+    'trials',
+    'rewards',
+    'stats',
+    'cases',
+    'complaints',
+    'evidences',
 ]
 
 MIDDLEWARE = [
