@@ -1,4 +1,3 @@
-# config/urls.py
 from django.contrib import admin
 from django.urls import path, include
 
@@ -6,7 +5,7 @@ from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 # Swagger Imports
-from rest_framework import permissions  # <--- This is the missing piece!
+from rest_framework import permissions  
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
@@ -36,4 +35,9 @@ urlpatterns = [
     
     # Role endpoints
     path('api/', include('roles.urls')),
+
+    path('api/suspects/', include('investigation.urls')),
+    path('api/trials/', include('trials.urls')),
+    path('api/rewards/', include('rewards.urls')),
+    path('api/stats/', include('stats.urls')),
 ]
