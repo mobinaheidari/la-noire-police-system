@@ -37,14 +37,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Third-party apps
     'rest_framework',
-    'rest_framework_simplejwt', 
+    'rest_framework_simplejwt',
     'drf_yasg',
-    
-    # Local apps
     'accounts',
     'roles',
+    'investigation',
+    'trials',
+    'rewards',
+    'stats',
 ]
 
 MIDDLEWARE = [
@@ -82,8 +83,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'lanoire_db',
+        'USER': 'admin',
+        'PASSWORD': 'adminpassword',
+        'HOST': 'db',
+        'PORT': '5432',
     }
 }
 
