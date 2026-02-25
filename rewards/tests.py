@@ -6,7 +6,13 @@ User = get_user_model()
 
 class RewardsAPITests(APITestCase):
     def setUp(self):
-        self.user = User.objects.create_user(username='testcitizen', password='testpassword123')
+        self.user = User.objects.create_user(
+            username='testcitizen',
+            email='citizen@test.com',
+            phone_number='09120000003',
+            national_code='1234567893',
+            password='testpassword123'
+        )
         self.client.force_authenticate(user=self.user)
 
     def test_get_rewards_list(self):

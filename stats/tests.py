@@ -6,7 +6,13 @@ User = get_user_model()
 
 class StatsAPITests(APITestCase):
     def setUp(self):
-        self.user = User.objects.create_user(username='testadmin', password='testpassword123')
+        self.user = User.objects.create_user(
+            username='testadmin',
+            email='admin@test.com',
+            phone_number='09120000004',
+            national_code='1234567894',
+            password='testpassword123'
+        )
         self.client.force_authenticate(user=self.user)
 
     def test_get_dashboard_stats(self):

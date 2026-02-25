@@ -6,7 +6,13 @@ User = get_user_model()
 
 class TrialsAPITests(APITestCase):
     def setUp(self):
-        self.user = User.objects.create_user(username='testjudge', password='testpassword123')
+        self.user = User.objects.create_user(
+            username='testjudge',
+            email='judge@test.com',
+            phone_number='09120000002',
+            national_code='1234567892',
+            password='testpassword123'
+        )
         self.client.force_authenticate(user=self.user)
 
     def test_get_trials_list(self):
