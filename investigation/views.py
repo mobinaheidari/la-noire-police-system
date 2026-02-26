@@ -42,6 +42,11 @@ class InterrogationViewSet(viewsets.ModelViewSet):
 class BailViewSet(viewsets.ModelViewSet):
     queryset = Bail.objects.all()
     serializer_class = BailSerializer
+    def get_queryset(self):
+        case_id = self.request.query_params.get('case')
+        if case_id:
+            return self.queryset.filter(suspect__case_id=case_id)
+        return self.queryset
 
 @api_view(['GET', 'POST'])
 def payment_callback(request):
