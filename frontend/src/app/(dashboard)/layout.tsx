@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/features/auth/authStore";
 import Sidebar from "@/components/layout/Sidebar";
@@ -13,14 +13,21 @@ export default function DashboardLayout({
 }) {
   const router = useRouter();
   const token = useAuthStore((state) => state.token);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    if (!token) {
+    setMounted(true);
+    
+    const savedToken = localStorage.getItem('token');
+    const savedUser = localStorage.getItem('user');
+    
+    if (!savedToken) {
       router.replace("/login");
     }
-  }, [token, router]);
+  }, [router]);
 
-  if (!token) return null;
+  
+  if (!mounted) return null;
 
   return (
     <div className="flex min-h-screen bg-slate-50" dir="rtl">
