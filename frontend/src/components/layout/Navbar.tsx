@@ -44,13 +44,15 @@ export default function Navbar() {
         <div className="flex items-center gap-4 border-r pr-6 border-slate-200">
           <div className="text-right">
             <p className="text-sm font-bold text-slate-800">
-              {user
+              {user?.first_name
                 ? `${user.first_name} ${user.last_name}`
-                : "در حال بارگذاری..."}
+                : "افسر سامانه"}
             </p>
 
             <p className="text-[10px] text-blue-600 font-bold bg-blue-50 px-2 py-0.5 rounded text-center">
-              {user?.roles?.[0]?.name || "بدون نقش"}
+              {user?.roles?.length
+                ? user.roles[0].name
+                : "نقش تعیین نشده"}
             </p>
           </div>
 
