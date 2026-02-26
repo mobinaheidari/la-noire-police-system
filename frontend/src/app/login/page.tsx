@@ -21,15 +21,18 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const response = await api.post("/login/", {
-        identifier,
-        password,
+      const response = await api.post("/auth/login/", {
+        username: identifier, 
+        password: password,
       });
 
-      const { user, access } = response.data;
+      
+      const { access, refresh } = response.data;
+      
+      
+      const user = response.data.user || null;
 
       setAuth(user, access);
-
       router.replace("/dashboard");
     } catch (err: any) {
       setError("اطلاعات ورود نامعتبر است.");
