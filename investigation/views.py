@@ -10,11 +10,20 @@ class SuspectViewSet(viewsets.ModelViewSet):
     queryset = Suspect.objects.all()
     serializer_class = SuspectSerializer
 
+
+    def get_queryset(self):
+        queryset = Suspect.objects.all()
+        case_id = self.request.query_params.get('case', None)
+        if case_id is not None:
+            queryset = queryset.filter(case_id=case_id)
+        return queryset
+
     @action(detail=False, methods=['get'])
     def most_wanted(self, request):
         most_wanted = self.queryset.filter(status='most_wanted')
         serializer = self.get_serializer(most_wanted, many=True)
         return Response(serializer.data)
+
 
 class InterrogationViewSet(viewsets.ModelViewSet):
     queryset = Interrogation.objects.all()
