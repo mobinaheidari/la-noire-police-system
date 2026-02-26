@@ -26,10 +26,16 @@ class SuspectViewSet(viewsets.ModelViewSet):
 
 
 class InterrogationViewSet(viewsets.ModelViewSet):
-    queryset = Interrogation.objects.all()
+    queryset = Interrogation.objects.all().order_by('-created_at')
     serializer_class = InterrogationSerializer
 
-   
+    def get_queryset(self):
+        queryset = self.queryset
+        case_id = self.request.query_params.get('case')
+        if case_id:
+            queryset = queryset.filter(suspect__case_id=case_id)
+        return queryset
+
     def perform_create(self, serializer):
         serializer.save(detective=self.request.user)
 
