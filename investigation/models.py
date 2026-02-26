@@ -18,10 +18,12 @@ class Suspect(models.Model):
 
 class Interrogation(models.Model):
     suspect = models.ForeignKey(Suspect, on_delete=models.CASCADE, related_name='interrogations')
+    transcript = models.TextField(verbose_name="متن بازجویی", null=True, blank=True) 
     detective = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='detective_interrogations')
-    sergeant = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='sergeant_interrogations')
-    detective_score = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)])
-    sergeant_score = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)])
+    sergeant = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='sergeant_interrogations', null=True, blank=True)
+    detective_score = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)], null=True, blank=True)
+    sergeant_score = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)], null=True, blank=True)
+    
     captain_verdict = models.BooleanField(null=True, blank=True)
     chief_verdict = models.BooleanField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)

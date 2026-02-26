@@ -29,6 +29,10 @@ class InterrogationViewSet(viewsets.ModelViewSet):
     queryset = Interrogation.objects.all()
     serializer_class = InterrogationSerializer
 
+   
+    def perform_create(self, serializer):
+        serializer.save(detective=self.request.user)
+
 class BailViewSet(viewsets.ModelViewSet):
     queryset = Bail.objects.all()
     serializer_class = BailSerializer
