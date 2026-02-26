@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState, useMemo } from 'react';
+import Link from 'next/link'; 
 import api from '@/services/api';
 import { Case } from '@/types/case';
 import { useAuthStore } from '@/features/auth/authStore';
@@ -14,7 +15,6 @@ export default function CasesPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   
- 
   const [newCase, setNewCase] = useState({ title: '', description: '', status: 'open' });
   const [submitting, setSubmitting] = useState(false);
 
@@ -37,7 +37,6 @@ export default function CasesPage() {
     fetchCases();
   }, [token]);
 
- 
   const filteredCases = useMemo(() => {
     return cases.filter(c => 
       c.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -45,7 +44,6 @@ export default function CasesPage() {
     );
   }, [cases, searchQuery]);
 
-  
   const handleCreateCase = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
@@ -124,29 +122,37 @@ export default function CasesPage() {
           {filteredCases.map((item) => {
             const statusInfo = getStatusInfo(item.status);
             return (
-              <div key={item.id} className="bg-white rounded-[2.5rem] border border-slate-200 p-6 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all group relative overflow-hidden">
-                <div className="relative z-10">
+              <div key={item.id} className="bg-white rounded-[2.5rem] border border-slate-200 p-6 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all group relative overflow-hidden flex flex-col">
+                <div className="relative z-10 flex-1 flex flex-col">
                   <div className="flex justify-between items-start mb-6">
                     <span className={`text-[11px] font-black px-4 py-1.5 rounded-full border ${statusInfo.color}`}>
                       {statusInfo.label}
                     </span>
                     <span className="text-slate-300 font-mono text-sm">#{item.id.toString().padStart(4, '0')}</span>
                   </div>
+                  
                   <h3 className="text-xl font-extrabold text-slate-800 mb-3 group-hover:text-blue-600 transition-colors">
                     {item.title}
                   </h3>
-                  <p className="text-slate-500 text-sm leading-relaxed mb-8 line-clamp-2 h-10">
+                  
+                  <p className="text-slate-500 text-sm leading-relaxed mb-8 line-clamp-2 flex-1">
                     {item.description}
                   </p>
-                  <div className="flex items-center justify-between pt-6 border-t border-slate-50">
+                  
+                  <div className="flex items-center justify-between pt-6 border-t border-slate-50 mt-auto">
                     <div className="flex items-center gap-2 text-slate-400 text-xs font-medium">
                       <Clock size={14} />
                       {new Date(item.created_at).toLocaleDateString('fa-IR')}
                     </div>
-                    <button className="flex items-center gap-1 text-blue-600 font-bold text-sm hover:gap-3 transition-all">
-                      جزئیات
+                    
+                    {/* تغییر کلیدی: تبدیل button به Link */}
+                    <Link 
+                      href={`/cases/${item.id}`} 
+                      className="flex items-center gap-1 text-blue-600 font-bold text-sm hover:gap-3 transition-all"
+                    >
+                      جزئیات پرونده
                       <ChevronLeft size={16} />
-                    </button>
+                    </Link>
                   </div>
                 </div>
               </div>
