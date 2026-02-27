@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react"; 
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/features/auth/authStore";
 import { Bell, Search, UserCircle, LogOut } from "lucide-react";
@@ -8,11 +9,22 @@ export default function Navbar() {
   const router = useRouter();
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
+  
+  
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleLogout = () => {
     if (confirm("آیا از خروج از سامانه اطمینان دارید؟")) {
       logout();
       router.replace("/login");
+    }
+  };
+
+  
+  const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && searchQuery.trim()) {
+      
+      router.push(`/cases?search=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
 
@@ -22,11 +34,14 @@ export default function Navbar() {
       dir="rtl"
     >
       {/* سرچ */}
-      <div className="flex items-center bg-slate-100 px-4 py-2 rounded-full w-96">
+      <div className="flex items-center bg-slate-100 px-4 py-2 rounded-full w-96 border border-transparent focus-within:border-blue-400 focus-within:bg-white transition-all">
         <Search size={18} className="text-slate-400 ml-2" />
         <input
           type="text"
-          placeholder="جستجوی پرونده، کد ملی..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          onKeyDown={handleSearch}
+          placeholder="جستجوی عنوان پرونده یا شماره..."
           className="bg-transparent border-none focus:ring-0 text-sm w-full outline-none"
         />
       </div>

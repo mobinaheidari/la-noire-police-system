@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState, useMemo } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link'; 
 import api from '@/services/api';
 import { Case } from '@/types/case';
@@ -19,6 +20,7 @@ export default function CasesPage() {
   const [submitting, setSubmitting] = useState(false);
 
   const token = useAuthStore((state) => state.token);
+  
 
   const fetchCases = async () => {
     if (!token) return;
