@@ -1,7 +1,15 @@
 "use client";
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, FolderOpen, ShieldAlert, Users, Scale, BarChart3, LogOut } from 'lucide-react';
+import { 
+  LayoutDashboard, 
+  FolderOpen, 
+  ShieldAlert, 
+  Users, 
+  Scale, 
+  Target, 
+  LogOut 
+} from 'lucide-react';
 import { useAuthStore } from '@/features/auth/authStore';
 
 const menuItems = [
@@ -10,6 +18,7 @@ const menuItems = [
   { name: 'شواهد', icon: ShieldAlert, href: '/evidences' },
   { name: 'مظنونین', icon: Users, href: '/suspects' },
   { name: 'دادگاه‌ها', icon: Scale, href: '/trials' },
+  { name: 'لیست سیاه (Most Wanted)', icon: Target, href: '/most-wanted', isSpecial: true },
 ];
 
 export default function Sidebar() {
@@ -23,17 +32,25 @@ export default function Sidebar() {
         <p className="text-xs text-blue-400 mt-1 font-medium">واحد عملیات مرکزی</p>
       </div>
       
-      <nav className="flex-1 p-4 space-y-2">
+      <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
         {menuItems.map((item) => {
           const isActive = pathname === item.href;
+          
           return (
             <Link key={item.href} href={item.href}
               className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all group ${
-                isActive ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/20' : 'hover:bg-slate-800 hover:text-white'
+                isActive 
+                  ? (item.isSpecial ? 'bg-red-700 text-white shadow-lg shadow-red-900/20' : 'bg-blue-600 text-white shadow-lg shadow-blue-900/20')
+                  : (item.isSpecial ? 'text-red-400 hover:bg-red-900/20 hover:text-red-300' : 'hover:bg-slate-800 hover:text-white')
               }`}
             >
-              <item.icon size={20} className={isActive ? 'text-white' : 'group-hover:text-blue-400'} />
-              <span className="font-medium">{item.name}</span>
+              <item.icon 
+                size={20} 
+                className={isActive ? 'text-white' : (item.isSpecial ? 'text-red-500 group-hover:text-red-400' : 'group-hover:text-blue-400')} 
+              />
+              <span className={`font-medium ${item.isSpecial && !isActive ? 'font-bold' : ''}`}>
+                {item.name}
+              </span>
             </Link>
           );
         })}
