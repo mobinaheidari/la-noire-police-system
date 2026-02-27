@@ -131,11 +131,44 @@ export default function CaseDetailsPage() {
     }
   };
 
+  // Skeleton Loading 
   if (loading && suspects.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[60vh]">
-        <Loader2 className="animate-spin text-slate-400 mb-4" size={48} />
-        <p className="text-slate-500 font-bold tracking-widest">STATION LOADING...</p>
+      <div className="max-w-7xl mx-auto space-y-10 pb-20 animate-in fade-in duration-500">
+        
+        {/* اسکلت هدر پرونده */}
+        <div className="flex items-center gap-6 bg-white p-10 rounded-[3rem] border border-slate-100 shadow-sm animate-pulse">
+          <div className="w-16 h-16 bg-slate-200 rounded-2xl shrink-0"></div>
+          <div className="space-y-3 w-full">
+            <div className="h-8 bg-slate-200 rounded-full w-1/4"></div>
+            <div className="h-4 bg-slate-200 rounded-full w-1/3"></div>
+          </div>
+        </div>
+
+        {/* اسکلت کارت‌های مظنونین */}
+        <section className="space-y-6">
+          <div className="h-6 bg-slate-200 rounded-full w-48 animate-pulse mb-6"></div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* ساخت 3 کارت فرضی برای زمان لودینگ */}
+            {[1, 2, 3].map((skeletonId) => (
+              <div key={skeletonId} className="bg-white border border-slate-100 rounded-[2.5rem] overflow-hidden shadow-sm animate-pulse">
+                {/* جای خالی عکس */}
+                <div className="h-48 bg-slate-200 flex items-center justify-center">
+                  <User size={80} className="text-slate-300 opacity-50" />
+                </div>
+                {/* جای خالی اطلاعات و دکمه‌ها */}
+                <div className="p-8 space-y-6">
+                  <div className="h-6 bg-slate-300 rounded-full w-2/3 mx-auto"></div>
+                  <div className="space-y-3 mt-4">
+                    <div className="h-10 bg-slate-200 rounded-2xl w-full"></div>
+                    <div className="h-10 bg-slate-200 rounded-2xl w-full"></div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
       </div>
     );
   }
